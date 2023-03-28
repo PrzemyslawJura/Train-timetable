@@ -1,0 +1,208 @@
+﻿@page
+@model ASP_DOT_NET_APP.Pages.Timetable.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<h1 style="text-align: center; margin: 30px 0;">Timetable</h1>
+
+@if(Model.Message != null)
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
+}
+
+
+<form asp-action="" method="get">
+
+    <fieldset style="margin-bottom: 30px; text-align: center;">
+
+        <label class="display-4" style="font-size: 30px">From:</label>
+
+        <select class="custom-select-sm" aria-label="Default select example" name="SearchString" asp-for="SearchString" style="height: calc(1.5em + .10rem + 10px);">
+
+            <option selected="selected" value="" asp-for="SearchString"></option>
+
+            <option value="Warszawa" asp-for="SearchString">Warszawa</option>
+
+            <option value="Opole" asp-for="SearchString">Opole</option>
+
+            <option value="Gdańsk" asp-for="SearchString">Gdańsk</option>
+
+            <option value="Katowice" asp-for="SearchString">Katowice</option>
+
+            <option value="Radom" asp-for="SearchString">Radom</option>
+
+            <option value="Bydgoszcz" asp-for="SearchString">Bydgoszcz</option>
+
+            <option value="Wocławek" asp-for="SearchString">Wocławek</option>
+
+            <option value="Kraków" asp-for="SearchString">Kraków</option>
+
+        </select>
+
+        <label class="display-4" style="font-size: 30px;  margin-left: 35px;">To:</label>
+
+        <select id="Name_To" class="custom-select-sm" aria-label="Default select example" name="SearchString2" asp-for="SearchString2" style="height: calc(1.5em + .10rem + 10px);">
+
+            <option selected="selected" value=""></option>
+
+            <option value="Warszawa" asp-for="SearchString">Warszawa</option>
+
+            <option value="Opole" asp-for="SearchString">Opole</option>
+
+            <option value="Gdańsk" asp-for="SearchString">Gdańsk</option>
+
+            <option value="Katowice" asp-for="SearchString">Katowice</option>
+
+            <option value="Radom" asp-for="SearchString">Radom</option>
+
+            <option value="Bydgoszcz" asp-for="SearchString">Bydgoszcz</option>
+
+            <option value="Wocławek" asp-for="SearchString">Wocławek</option>
+
+            <option value="Kraków" asp-for="SearchString">Kraków</option>
+
+            <option value="Poznań" asp-for="SearchString">Poznań</option>
+
+            <option value="Sosnowiec" asp-for="SearchString">Sosnowiec</option>
+
+            <option value="Nowy Sącz" asp-for="SearchString">Nowy Sącz</option>
+
+        </select>
+
+        <input type="submit" value="Search" class="btn btn-success" style="vertical-align: baseline; padding: .265rem .75rem; margin-left: 40px; width: 150px" />
+    </fieldset>
+
+
+
+</form>
+
+<table class="table" style="text-align: center;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rozklad_Jazdy[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rozklad_Jazdy[0].Name_From)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rozklad_Jazdy[0].Name_To)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rozklad_Jazdy[0].Hours)
+            </th>
+            <th></th>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <th></th>
+            }
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Rozklad_Jazdy)
+        {
+        <tr id="clr">
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name_From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name_To)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hours)
+            </td>
+            @{ 
+                var help = 0;
+            } 
+            <td>
+                @foreach (var itemm in Model.bok)
+                {
+
+                    @if (itemm.Book_Id == item.Id && itemm.User == User.Identity.Name)
+                    {
+                        help = 1;
+                        <text>Reserved</text>
+                        break;
+                    }
+                }
+            </td>
+
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+        <td>
+            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-primary" style="margin-right: 20px; margin-left: 70px;"> Details </a>
+
+
+            @if (User.Identity.Name.Contains("przemyslaw.jura@op.pl"))
+            {
+
+                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger" style="margin-right: 20px;"> Delete </a>
+
+                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-secondary" style="margin-right: 20px;"> Edit </a>
+            }
+
+
+            @if (help == 1)
+            {
+                <a asp-page="./Unbook" asp-route-id="@item.Id" class="btn btn-danger" > Unbook </a>
+            }
+            else
+            {
+                <a asp-page="./Book" asp-route-id="@item.Id" class="btn btn-success" style="padding-left: 20px; padding-right: 20px;"> Book </a>
+            }
+
+        </td>
+            }
+
+
+
+            @*<td>
+            <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-route-id="@item.Id" onclick="Book_click()">Book</a> |
+            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+        </td>*@
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (User.Identity.Name.Contains("przemyslaw.jura@op.pl"))
+    {
+        <p>
+            <a asp-page="Create" class="btn btn-success" style="width: 100%">Create New</a>
+        </p>
+    }
+}
+else
+{
+
+}
+
+
+
+
+

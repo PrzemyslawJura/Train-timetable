@@ -1,0 +1,46 @@
+﻿@page
+@model ASP_DOT_NET_APP.Pages.Timetable.UnbookModel
+@{
+}
+
+<h1>Unbook</h1>
+<h3>Are you sure you want to unbook this tour?</h3>
+<hr />
+
+@{ 
+    var i = 0;
+}
+
+@foreach (var item in Model.Rozklad)
+{
+    @foreach (var itemm in Model.bok)
+    {
+        @if (itemm.Book_Id == Model.Rozklad_Jazdy.Id && itemm.User == User.Identity.Name )
+        {
+           i  = itemm.Id;
+            break;
+        }
+    }
+
+}
+
+<div class="row">
+   <div class="col-md-4">
+        <form method="post">
+                <div class="text-danger"></div>
+
+            <div class="form-group">
+                <input asp-for="help" value=@i class="form-control"  style="display: none;" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Unbook" class="btn btn-danger" style="margin-right: 20px;" />
+                <a asp-page="Index" class="btn btn-primary">Back to List</a>
+            </div>
+        </form>
+   </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

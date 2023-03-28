@@ -1,0 +1,37 @@
+﻿@page
+@model ASP_DOT_NET_APP.Pages.Timetable.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rozklad_Jazdy.Name_From)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rozklad_Jazdy.Name_From)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rozklad_Jazdy.Name_To)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rozklad_Jazdy.Name_To)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rozklad_Jazdy.Hours)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rozklad_Jazdy.Hours)
+        </dd>
+    </dl>
+</div>
+<div>
+    @*<a asp-page="./" asp-route-id="@Model.Rozklad_Jazdy.Id">Book</a> |*@
+    <a asp-page="./Index"  class="btn btn-primary">Back to List</a>
+</div>

@@ -1,0 +1,32 @@
+﻿@page
+@model ASP_DOT_NET_APP.Pages.Timetable.BookModel
+
+@{
+    ViewData["Title"] = "Book";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Book</h1>
+<h3>Are you sure you want to book this tour?</h3>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div  class="text-danger"></div>
+
+            <div class="form-group">
+                <input asp-for="bookk.User" class="form-control"  value=@User.Identity.Name style="display: none;"/>
+            </div>
+        <div class="form-group">
+            <input type="submit" value="Book" class="btn btn-success" style="margin-right: 20px;"/>
+            <a asp-page="Index" class="btn btn-primary">Back to List</a>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
